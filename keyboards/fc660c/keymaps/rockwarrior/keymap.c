@@ -48,6 +48,7 @@ enum custom_keycodes {
     xRSZR,
     xRSZU,
     xRSZD,
+    xAPP,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -87,7 +88,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [1] = LAYOUT(
         _______,KC_EXLM,KC_AT  ,KC_HASH,KC_DLR ,KC_PERC,KC_CIRC,KC_AMPR,KC_ASTR,KC_LPRN,KC_RPRN,KC_UNDS,KC_PLUS,_______,     _______,
         _______,_______,_______,cE     ,_______,_______,cY     ,cU     ,_______,_______,_______,KC_LCBR,KC_RCBR,KC_PIPE,     _______,
-        _______,MO(2)  ,_______,cD     ,MO(3)  ,_______,KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,KC_COLN,KC_DQT ,    _______,
+        _______,MO(2)  ,_______,cD     ,MO(3)  ,xAPP   ,KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,KC_COLN,KC_DQT ,    _______,
         _______,_______,_______,_______,_______,_______,_______,_______,KC_LT  ,KC_GT  ,KC_QUES,_______,    _______,
         _______,_______,_______,                _______,              _______,_______,_______,      _______,_______,_______
     ),
@@ -155,6 +156,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch(keycode) {
+        case xAPP:
+            // app switcher
+            if (record->event.pressed) {
+                SEND_STRING(SS_DOWN(X_LGUI)SS_TAP(X_TAB));
+            } else {
+                SEND_STRING(SS_UP(X_LGUI));
+            }
+            break;
         case xPREV:
             // tmux: previous window
             if (record->event.pressed) {
